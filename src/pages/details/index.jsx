@@ -4,8 +4,13 @@ import { GlobalContext } from "../../context";
 
 export default function Details() {
   const { id } = useParams();
-  const { recipeDetailsData, setRecipeDetailsData } = useContext(GlobalContext);
-  console.log(recipeDetailsData);
+  const {
+    recipeDetailsData,
+    setRecipeDetailsData,
+    handleAddToFavorite,
+    favoritesList,
+  } = useContext(GlobalContext);
+
   useEffect(() => {
     async function getRecipeDetails() {
       const response = await fetch(
@@ -19,7 +24,7 @@ export default function Details() {
     }
     getRecipeDetails();
   }, []);
-  console.log(id);
+
   return (
     <div className="container mx-auto py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
       <div className="row-start-2 lg:row-start-auto">
@@ -42,25 +47,34 @@ export default function Details() {
       </div>
       <div>
         <button
+          onClick={() => handleAddToFavorite(recipeDetailsData?.recipe)}
           className="p-3 px-8 rounded-lg text-sm uppercase font-medium tracking-wide bg-black text-white
          "
         >
-          Save As Favorite
+          {/* Add to favorites */}
+
+          {favoritesList &&
+          favoritesList.length > 0 &&
+          favoritesList.findIndex(
+            (item) => item.id === recipeDetailsData?.recipe?.id
+          ) !== -1
+            ? "Remove from favorites"
+            : "Add to favorites"}
         </button>
       </div>
       <div>
         <span className="text-2xl font-semibold text-black">Ingredients:</span>
         <ul className="flex flex-col gap-3">
-          {recipeDetailsData?.recipe?.ingredients.map((ingredients) => {
+          {recipeDetailsData?.recipe?.ingredients.map((ingredient) => (
             <li>
               <span className="text-2xl font-semibold text-black">
-                {ingredients.quantity} {ingredients.unit}
+                {ingredient.quantity} {ingredient.unit}
               </span>
               <span className="text-2xl font-semibold text-black">
-                {ingredients.description}
+                {ingredient.description}
               </span>
-            </li>;
-          })}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

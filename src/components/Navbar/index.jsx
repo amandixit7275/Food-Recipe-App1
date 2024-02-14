@@ -25,7 +25,7 @@ export default function Navbar() {
           type="text"
           name="search"
           placeholder="Enter items..."
-          className="bg-white/75 px-8 rounded-full outline-none lg:w-96 shadow-lg shadow-red-100 focus:shadow-red-200  "
+          className="bg-white/75 h-14 px-8 rounded-full outline-none lg:w-96 shadow-lg shadow-red-100 focus:shadow-red-200  "
         />
       </form>
       <ul className="flex gap-5">
